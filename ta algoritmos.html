@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Resolución de Problemas - Agencia de Cambio de Divisas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 1200px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        .contexto {
+            background-color: #eaf0e9;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .developers {
+            margin-top: 30px;
+            text-align: left;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .developers h2 {
+            color: #333;
+        }
+
+        .developers p {
+            margin: 10px 0;
+        }
+
+        .developers a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .developers a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Sistema de Resolución de Problemas</h1>
+
+    <!-- Contexto visible en la página -->
+    <div class="contexto">
+        <h2>Contexto</h2>
+        <p><strong>Intercambio de Divisas:</strong> Eres el desarrollador de una aplicación para una agencia de cambio de divisas que permite a los usuarios intercambiar diferentes monedas: Dólares (USD), Soles (PEN), Euros (EUR) y Yenes (JPY). El sistema debe permitir que los usuarios ingresen una cantidad en una moneda específica y elijan a qué moneda desean cambiarla, con tasas de cambio predefinidas. Además, el sistema debe validar si la cantidad ingresada es válida y mostrar el resultado de la conversión.</p>
+
+        <p><strong>Gestión de Inventarios:</strong> Estás desarrollando un sistema para gestionar el inventario de una tienda. Cada producto tiene un código, un nombre y un precio. La tienda maneja varias sucursales. Necesitas calcular el valor total del inventario en todas las sucursales.</p>
+
+        <p><strong>Cálculo de Costos de Producción:</strong> En una planta de producción, necesitas calcular el costo total de producción de una serie de productos. El costo de producción de un producto incluye el costo de materiales y el costo de trabajo. Si un producto tiene subcomponentes, se debe calcular recursivamente el costo total de cada subcomponente.</p>
+
+        <p><strong>Búsqueda de Vuelo:</strong> Estás diseñando un sistema de reservas de vuelos. Necesitas buscar si un vuelo está disponible en una lista de vuelos ordenados por número de vuelo.</p>
+
+        <p><strong>Sistema de Transporte Urbano:</strong> Estás desarrollando un sistema de transporte urbano. Necesitas representar las rutas entre estaciones como un grafo y permitir a los usuarios ver las conexiones de las estaciones.</p>
+    </div>
+
+    <div class="menu">
+        <button onclick="mostrarConversorDivisas()">Intercambio de Divisas</button>
+        <button onclick="mostrarGestorInventarios()">Gestión de Inventarios</button>
+        <button onclick="mostrarCostoProduccion()">Cálculo de Costos de Producción</button>
+        <button onclick="mostrarBusquedaVuelo()">Búsqueda de Vuelo</button>
+        <button onclick="mostrarSistemaTransporte()">Sistema de Transporte Urbano</button>
+    </div>
+
+    <div id="output" class="output"></div>
+
+    <!-- Sección de desarrolladores al final -->
+    <div class="developers">
+        <h2>Desarrolladores</h2>
+        <p>Este proyecto fue desarrollado por:</p>
+        <p>GOMEZ RAMIREZ SEBASTIAN ANDREY - LIDER DEL PROYECTO</p>
+        <p>YANAC CONTRERAS BRAJHAN OMAR - ENCARGADO BACKEND</p>
+        <p>DUEÑAS VASQUEZ ROGER ANGHELO - ENCARGADO FRONTEND</p>
+        <p>Para más información, visita nuestro <a href="https://www.linkedin.com/in/sebastian-andrey-gomez-ramirez-48b00631b/" target="_blank">perfil de LinkedIn</a>.</p>
+    </div>
+
+</div>
+
+<script>
+    const tasasCambio = {
+        'USD-PEN': 3.75,
+        'USD-EUR': 0.92,
+        'USD-JPY': 130,
+        'PEN-USD': 0.27,
+        'PEN-EUR': 0.25,
+        'PEN-JPY': 34.67,
+        'EUR-USD': 1.09,
+        'EUR-PEN': 4.00,
+        'EUR-JPY': 142.39,
+        'JPY-USD': 0.0077,
+        'JPY-PEN': 0.029,
+        'JPY-EUR': 0.0070
+    };
+
+    function convertir(monedaOrigen, monedaDestino, cantidad) {
+        if (monedaOrigen === monedaDestino) {
+            return cantidad;
+        }
+        const clave = monedaOrigen + '-' + monedaDestino;
+        let tasa = tasasCambio[clave];
+        
+        if (!tasa) {
+            tasa = 1 / tasasCambio[monedaDestino + '-' + monedaOrigen];
+        }
+        
+        return cantidad * tasa;
+    }
+
+    function mostrarConversorDivisas() {
+        const monedas = ['USD', 'PEN', 'EUR', 'JPY'];
+        const cantidad = prompt("Ingrese la cantidad a convertir:");
+        const monedaOrigen = prompt("Ingrese la moneda de origen (USD, PEN, EUR, JPY):").toUpperCase();
+        const monedaDestino = prompt("Ingrese la moneda de destino (USD, PEN, EUR, JPY):").toUpperCase();
+
+        if (!monedas.includes(monedaOrigen) || !monedas.includes(monedaDestino)) {
+            alert("Moneda no válida.");
+            return;
+        }
+
+        const resultado = convertir(monedaOrigen, monedaDestino, parseFloat(cantidad));
+        document.getElementById('output').innerHTML = `${cantidad} ${monedaOrigen} es igual a ${resultado.toFixed(2)} ${monedaDestino}.`;
+    }
+
+    function mostrarGestorInventarios() {
+        let sucursales = parseInt(prompt("Ingresa el número de sucursales:"));
+        let productos = parseInt(prompt("Ingresa el número de productos:"));
+        let inventario = [];
+
+        for (let i = 0; i < productos; i++) {
+            let fila = [];
+            for (let j = 0; j < sucursales; j++) {
+                let precio = parseFloat(prompt(`Ingrese el precio del producto ${i + 1} en la sucursal ${j + 1}:`));
+                fila.push(precio);
+            }
+            inventario.push(fila);
+        }
+
+        let totalesSucursal = inventario.map(fila => fila.reduce((acc, precio) => acc + precio, 0));
+        let output = "Totales por sucursal:<br>";
+        totalesSucursal.forEach((total, i) => {
+            output += `Sucursal ${i + 1}: ${total}<br>`;
+        });
+        document.getElementById('output').innerHTML = output;
+    }
+
+    function mostrarCostoProduccion() {
+        // Código de cálculo de costos de producción
+    }
+
+    function mostrarBusquedaVuelo() {
+        // Código de búsqueda de vuelo
+    }
+
+    function mostrarSistemaTransporte() {
+        // Código de sistema de transporte
+    }
+</script>
+
+</body>
+</html>
